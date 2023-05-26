@@ -1,5 +1,7 @@
 version: '1.0.0'
 
+# Uncomment environment, if you want to use debug mode.
+
 services:
   web:
     build: .
@@ -7,8 +9,9 @@ services:
       - '3000:3000'
     volumes:
       - '.:/usr/src/app'
-    command: air src/main.go
-
+    command: air cmd/main.go
+    environment:
+      - DEBUG=true
   db:
     image: postgres:15
     environment:
