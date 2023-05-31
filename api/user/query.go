@@ -25,3 +25,36 @@ func InsertUser(uuid string, key string) error {
 	}
 	return nil
 }
+
+func RetrieveUsers() (*[]User, error) {
+	ctx, cancelFunc := context.WithTimeout(context.Background(), config.ConnectionTimeout*time.Second)
+	defer cancelFunc()
+
+	retrieveUsersQuery := `
+	SELECT ID, KEY FROM client
+	`
+
+	rows, err := database.Db.QueryContext(ctx, retrieveUsersQuery)
+	defer rows.Close()
+
+	if err != nil {
+		logger.Log.Warn("Error retrieving users: ", err)
+		return nil, err
+	}
+
+	var users []User
+
+	for rows.Next() {
+		user := new(User)
+		err := rows.Scan(&user.Id, &user.Key)
+
+		if err != nil {
+			logger.Log.Warn("Error scanning user: ", err)
+			return nil, err
+		}
+
+		users = append(users, *user)
+	}
+
+	return &users, nil
+}

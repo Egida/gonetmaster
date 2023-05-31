@@ -7,6 +7,24 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func GetUsers(ctx *fiber.Ctx) error {
+	users, err := RetrieveUsers()
+
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(model.Response{
+			Status:  "error",
+			Data:    nil,
+			Message: err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(model.Response{
+		Status:  "success",
+		Data:    users,
+		Message: nil,
+	})
+}
+
 func CreateUser(ctx *fiber.Ctx) error {
 	user := new(User)
 	parseErr := ctx.BodyParser(user)
