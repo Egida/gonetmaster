@@ -3,11 +3,13 @@ package main
 import (
 	"log"
 
+	"github.com/edwardelton/gonetmaster/api/common/model"
 	"github.com/edwardelton/gonetmaster/api/database"
 	"github.com/edwardelton/gonetmaster/api/router"
 	aggregatedLogger "github.com/edwardelton/gonetmaster/logger"
 	"github.com/edwardelton/gonetmaster/util"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 )
@@ -32,6 +34,16 @@ func main() {
 		Format:     "${time} | ${method} | ${path} | ${ip} | ${status} | ${latency}\n",
 		TimeFormat: "02-Jan-2006 15:04:05",
 		Output:     file,
+	}))
+
+	app.Use(limiter.New(limiter.Config{
+		LimitReached: func(c *fiber.Ctx) error {
+			return c.Status(429).JSON(model.Response{
+				Status:  "error",
+				Message: "Too many requests",
+				Data:    nil,
+			})
+		},
 	}))
 
 	router.SetupRoutes(app)
