@@ -6,6 +6,7 @@ import (
 
 	"github.com/edwardelton/gonetmaster/api/config"
 	"github.com/edwardelton/gonetmaster/api/database"
+	"github.com/edwardelton/gonetmaster/logger"
 )
 
 func RetrieveApiKey(hashedKey string) (bool, error) {
@@ -16,10 +17,12 @@ func RetrieveApiKey(hashedKey string) (bool, error) {
 	defer rows.Close()
 
 	if queryErr != nil {
+		logger.Log.Warn("Error retrieving apiKey: ", queryErr)
 		return false, queryErr
 	}
 
 	if !rows.Next() {
+		logger.Log.Warn("No ApiKey found")
 		return false, nil
 	}
 	return true, nil
