@@ -1,9 +1,12 @@
 package user
 
 import (
+	"crypto/rand"
+
 	"github.com/edwardelton/gonetmaster/api/common/model"
 	"github.com/edwardelton/gonetmaster/api/common/validation"
 	"github.com/edwardelton/gonetmaster/api/config"
+	"github.com/edwardelton/gonetmaster/logger"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -36,6 +39,7 @@ func CreateUser(ctx *fiber.Ctx) error {
 			Message: nil,
 		})
 	}
+	user.Key, parseErr = generateRandomAESKey()
 
 	validateErr := validation.ValidateStruct(user)
 
@@ -71,4 +75,15 @@ func CreateUser(ctx *fiber.Ctx) error {
 		Data:    nil,
 		Message: "User added successfully",
 	})
+}
+
+func generateRandomAESKey() ([]byte, error) {
+	key := make([]byte, 32)
+	_, err := rand.Read(key)
+
+	if err != nil {
+		logger.Log.Warn("Error generating random AES key: ", err)
+		return nil, err
+	}
+	return key, nil
 }

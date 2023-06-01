@@ -9,7 +9,7 @@ import (
 	"github.com/edwardelton/gonetmaster/logger"
 )
 
-func InsertUser(uuid string, key string) error {
+func InsertUser(uuid string, key []byte) error {
 	ctx, cancelFunc := context.WithTimeout(context.Background(), config.ConnectionTimeout*time.Second)
 	defer cancelFunc()
 

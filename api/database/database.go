@@ -38,7 +38,7 @@ func createUserTable() {
 	createUserTableQuery := `
 	CREATE TABLE IF NOT EXISTS client (
 		id UUID PRIMARY KEY,
-		key VARCHAR(255) NOT NULL,
+		key BYTEA NOT NULL,
 		inserted_at TIMESTAMP NOT NULL DEFAULT NOW()
 	)`
 
