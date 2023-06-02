@@ -72,7 +72,7 @@ func CreateUser(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(model.Response{
 		Status:  "success",
-		Data:    nil,
+		Data:    fiber.Map{"key": user.Key},
 		Message: "User added successfully",
 	})
 }
