@@ -8,10 +8,6 @@
     <img src="https://i.pinimg.com/736x/40/a6/e3/40a6e30c124e11047cc7cc913a68567c--astronomy-art-google.jpg" alt="cnc" width="300px"/><br/>
 </p>
 
-<p>
-
-</p>
-
 ---
 
 <h3>Introduction</h3>
