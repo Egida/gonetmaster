@@ -10,8 +10,8 @@ services:
     volumes:
       - '.:/usr/src/app'
     command: air cmd/main.go
-    environment:
-      - DEBUG=true
+    #environment:
+      #- DEBUG=true
   db:
     image: postgres:15
     environment:
